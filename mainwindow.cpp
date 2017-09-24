@@ -22,6 +22,7 @@ void MainWindow::setup() {
 
 void MainWindow::handleSSRelease() {
     hide();
+    QThread::msleep(200);
     QScreen* pScreen = QGuiApplication::primaryScreen();
     if (const QWindow *window = windowHandle())
         pScreen = window->screen();

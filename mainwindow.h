@@ -2,6 +2,15 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QApplication>
+#include <QDesktopWidget>
+#include <QGuiApplication>
+#include <QLabel>
+#include <QScreen>
+#include <QThread>
+#include <QTimer>
+#include <QWidget>
+#include <QWindow>
 
 #include "screenshot.h"
 
