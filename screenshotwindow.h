@@ -8,7 +8,11 @@
 #include <QPainter>
 #include <QPaintEvent>
 #include <QPixmap>
+#include <QPoint>
+#include <QRect>
 #include <QWidget>
+#include <iostream>
+#include "math.h"
 
 class MainWindow;
 
@@ -21,11 +25,20 @@ public:
     //Events
     void paintEvent(QPaintEvent*);
     void mouseDoubleClickEvent(QMouseEvent* event);
+    void mousePressEvent(QMouseEvent* event);
+    void mouseReleaseEvent(QMouseEvent* event);
+    void mouseMoveEvent(QMouseEvent* event);
 
 private:
-    MainWindow* pParent;
+    //void updateRectangle();
 
+    bool started;
+
+    MainWindow* pParent;
+    QPoint mPoint1;
+    QPoint mPoint2;
     QPixmap mPixmap;
+    QRect mRect;
 };
 
 #endif // SCREENSHOTWINDOW_H
