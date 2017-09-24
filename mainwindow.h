@@ -12,7 +12,9 @@
 #include <QWidget>
 #include <QWindow>
 
-#include "screenshot.h"
+#include "screenshotwindow.h"
+
+class screenshotWindow;
 
 namespace Ui {
 class MainWindow;
@@ -26,6 +28,10 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    void updatePixmap(QPixmap newPixmap);
+
+public slots:
+
 private slots:
     void handleSSRelease();
 
@@ -33,14 +39,14 @@ private:
     void setup();
     void hideWindow();
     void showWindow();
-    void updatePixmap();
+    void openSSWindow();
 
     Ui::MainWindow *ui;
 
     QPixmap mBasePixmap;
     QLabel* pScreenshotLabel;
 
-    Screenshot* pSS;
+    screenshotWindow* pSS;
 };
 
 #endif // MAINWINDOW_H
