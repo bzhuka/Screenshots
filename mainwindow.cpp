@@ -7,6 +7,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+
+
     mainLayout = new QVBoxLayout();
     mainLayout->setAlignment(Qt::AlignCenter);
 
@@ -21,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent) :
     imageLabel->setMinimumSize(screenGeometry.width() / 8, screenGeometry.height() / 8);
     mainLayout->addWidget(imageLabel);
 
+    mBasePixmap = QPixmap(screenGeometry.width() / 8, screenGeometry.height() / 8);
     //SECOND ITEM
     //Buttons
     buttonsLayout = new QHBoxLayout;
@@ -58,6 +61,33 @@ void MainWindow::setup() {
 
     //Connecting everything
     connect(ssButton, SIGNAL(released()), this, SLOT (handleSSRelease()));
+    connect(saveButton, SIGNAL(released()), this, SLOT (handleSaveRelease()));
+}
+
+void MainWindow::handleSaveRelease() {
+    const QString format = "png";
+    QString initialPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+    if (initialPath.isEmpty())
+        initialPath = QDir::currentPath();
+    initialPath += tr("/untitled.") + format;
+
+    QFileDialog fileDialog(this, tr("Save As"), initialPath);
+    fileDialog.setAcceptMode(QFileDialog::AcceptSave);
+    fileDialog.setFileMode(QFileDialog::AnyFile);
+    fileDialog.setDirectory(initialPath);
+    QStringList mimeTypes;
+    foreach (const QByteArray &bf, QImageWriter::supportedMimeTypes())
+        mimeTypes.append(QLatin1String(bf));
+    fileDialog.setMimeTypeFilters(mimeTypes);
+    fileDialog.selectMimeTypeFilter("image/" + format);
+    fileDialog.setDefaultSuffix(format);
+    if (fileDialog.exec() != QDialog::Accepted)
+        return;
+    const QString fileName = fileDialog.selectedFiles().first();
+    if (!mBasePixmap.save(fileName)) {
+        QMessageBox::warning(this, tr("Save Error"), tr("The image could not be saved to \"%1\".")
+                             .arg(QDir::toNativeSeparators(fileName)));
+    }
 }
 
 void MainWindow::handleSSRelease() {

@@ -5,11 +5,17 @@
 #include <QApplication>
 #include <QBoxLayout>
 #include <QDesktopWidget>
+#include <QDir>
 #include <QFile>
+#include <QFileDialog>
 #include <QGuiApplication>
+#include <QImageWriter>
 #include <QLabel>
+#include <QMessageBox>
 #include <QPushButton>
 #include <QScreen>
+#include <QStandardPaths>
+#include <QStringList>
 #include <QThread>
 #include <QTimer>
 #include <QVBoxLayout>
@@ -38,6 +44,7 @@ public:
 public slots:
 
 private slots:
+    void handleSaveRelease();
     void handleSSRelease();
 
 private:

@@ -45,6 +45,10 @@ void screenshotWindow::paintEvent(QPaintEvent *)
             QRect rect1(x, y, w, h);
             painter.drawPixmap(rect1, mPixmap, rect1);
             mRect = rect1;
+
+            QPen pen(Qt::red, 2);
+            painter.setPen(pen);
+            painter.drawRect(rect1);
         }
 }
 

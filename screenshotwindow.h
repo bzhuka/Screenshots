@@ -7,6 +7,7 @@
 #include <QDesktopWidget>
 #include <QPainter>
 #include <QPaintEvent>
+#include <QPen>
 #include <QPixmap>
 #include <QPoint>
 #include <QRect>
