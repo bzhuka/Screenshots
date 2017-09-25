@@ -6,9 +6,48 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->imageLabel->setText("");
+
+    mainLayout = new QVBoxLayout();
+    mainLayout->setAlignment(Qt::AlignCenter);
+
+    imageLabel = new QLabel();
+    imageLabel->setText("");
+
+    //FIRST ITEM
+    //Formatting the image, and making sure the image scales
+    imageLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    imageLabel->setAlignment(Qt::AlignCenter);
+    const QRect screenGeometry = QApplication::desktop()->screenGeometry(this);
+    imageLabel->setMinimumSize(screenGeometry.width() / 8, screenGeometry.height() / 8);
+    mainLayout->addWidget(imageLabel);
+
+    //SECOND ITEM
+    //Buttons
+    buttonsLayout = new QHBoxLayout;
+
+    ssButton = new QPushButton();
+    ssButton->setText("Screenshot");
+    buttonsLayout->addWidget(ssButton);
+
+    saveButton = new QPushButton();
+    saveButton->setText("Save");
+    buttonsLayout->addWidget(saveButton);
+
+    buttonsLayout->addStretch();
+    mainLayout->addLayout(buttonsLayout);
+
+    central = new QWidget;
+    central->setLayout(mainLayout);
+    setCentralWidget(central);
 
     setup();
+}
+
+void MainWindow::resizeEvent(QResizeEvent *) {
+    QSize scaledSize = mBasePixmap.size();
+    scaledSize.scale(imageLabel->size(), Qt::KeepAspectRatio);
+    if (!imageLabel->pixmap() || scaledSize != imageLabel->pixmap()->size())
+        updateScreenShotLabel();
 }
 
 void MainWindow::setup() {
@@ -18,7 +57,7 @@ void MainWindow::setup() {
     pSS = new screenshotWindow(this);
 
     //Connecting everything
-    connect(ui->ssButton, SIGNAL(released()), this, SLOT (handleSSRelease()));
+    connect(ssButton, SIGNAL(released()), this, SLOT (handleSSRelease()));
 }
 
 void MainWindow::handleSSRelease() {
@@ -37,11 +76,19 @@ void MainWindow::handleSSRelease() {
 void MainWindow::updatePixmap(QPixmap newPixmap) {
     show();
     mBasePixmap = newPixmap;
-    ui->imageLabel->setPixmap(mBasePixmap.scaled(ui->imageLabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    imageLabel->setPixmap(mBasePixmap.scaled(imageLabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+}
+
+void MainWindow::updateScreenShotLabel() {
+    imageLabel->setPixmap(mBasePixmap.scaled(imageLabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
 }
 
 MainWindow::~MainWindow()
 {
-    delete pSS;
+    delete imageLabel;
+    delete mainLayout;
+    delete ssButton;
+    delete saveButton;
+    delete central;
     delete ui;
 }
