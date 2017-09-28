@@ -23,6 +23,7 @@
 #include <QWindow>
 
 #include "screenshotwindow.h"
+#include "drawarea.h"
 
 class screenshotWindow;
 
@@ -45,6 +46,7 @@ public slots:
 
 private slots:
     void handleSaveRelease();
+    void handleEditButton();
     void handleSSRelease();
 
 private:
@@ -59,6 +61,7 @@ private:
     QPixmap mBasePixmap;
     QLabel* imageLabel;
     QPushButton* ssButton;
+    QPushButton* editButton;
     QPushButton* saveButton;
     QVBoxLayout* mainLayout;
     QHBoxLayout* buttonsLayout;

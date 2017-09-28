@@ -32,6 +32,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ssButton->setText("Screenshot");
     buttonsLayout->addWidget(ssButton);
 
+    editButton = new QPushButton();
+    editButton->setText("Edit");
+    buttonsLayout->addWidget(editButton);
+
     saveButton = new QPushButton();
     saveButton->setText("Save");
     buttonsLayout->addWidget(saveButton);
@@ -61,6 +65,7 @@ void MainWindow::setup() {
 
     //Connecting everything
     connect(ssButton, SIGNAL(released()), this, SLOT (handleSSRelease()));
+    connect(editButton, SIGNAL(released()), this, SLOT(handleEditButton()));
     connect(saveButton, SIGNAL(released()), this, SLOT (handleSaveRelease()));
 }
 
@@ -88,6 +93,11 @@ void MainWindow::handleSaveRelease() {
         QMessageBox::warning(this, tr("Save Error"), tr("The image could not be saved to \"%1\".")
                              .arg(QDir::toNativeSeparators(fileName)));
     }
+}
+
+void MainWindow::handleEditButton() {
+    DrawArea* drawArea = new DrawArea(this, mBasePixmap);
+    setCentralWidget(drawArea);
 }
 
 void MainWindow::handleSSRelease() {
