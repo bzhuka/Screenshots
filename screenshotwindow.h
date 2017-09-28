@@ -1,8 +1,6 @@
 #ifndef SCREENSHOTWINDOW_H
 #define SCREENSHOTWINDOW_H
 
-#include "mainwindow.h"
-
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QPainter>

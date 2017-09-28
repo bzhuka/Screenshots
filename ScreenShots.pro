@@ -27,12 +27,14 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     screenshot.cpp \
-    screenshotwindow.cpp
+    screenshotwindow.cpp \
+    drawarea.cpp
 
 HEADERS += \
         mainwindow.h \
     screenshot.h \
-    screenshotwindow.h
+    screenshotwindow.h \
+    drawarea.h
 
 FORMS += \
         mainwindow.ui

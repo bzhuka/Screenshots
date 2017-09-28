@@ -1,5 +1,7 @@
 #include "screenshotwindow.h"
 
+#include "mainwindow.h"
+
 screenshotWindow::screenshotWindow(MainWindow* parent = NULL)
 {
     started = false;
