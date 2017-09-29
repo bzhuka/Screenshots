@@ -2,18 +2,22 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QAction>
 #include <QApplication>
 #include <QBoxLayout>
+#include <QColorDialog>
 #include <QDesktopWidget>
 #include <QDir>
 #include <QFile>
 #include <QFileDialog>
 #include <QGuiApplication>
 #include <QImageWriter>
+#include <QInputDialog>
 #include <QLabel>
 #include <QMessageBox>
 #include <QPushButton>
 #include <QScreen>
+#include <QSpinBox>
 #include <QStandardPaths>
 #include <QStringList>
 #include <QThread>
@@ -49,6 +53,9 @@ private slots:
     void handleEditButton();
     void handleSSRelease();
 
+    void penColor();
+    void penWidth();
+
 private:
     void setup();
     void hideWindow();
@@ -67,7 +74,14 @@ private:
     QPushButton* saveButton;
     QVBoxLayout* mainLayout;
     QHBoxLayout* buttonsLayout;
+    QHBoxLayout* editingButtonsLayout;
+    QSpinBox* penSizeBox;
     QWidget* central;
+
+    QAction* penColorAct;
+    QAction* penWidthAct;
+
+    QSize screenSize;
 
     screenshotWindow* pSS;
 };

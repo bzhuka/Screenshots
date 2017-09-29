@@ -34,11 +34,11 @@ protected:
     void mouseMoveEvent(QMouseEvent* event) override;
     void mouseReleaseEvent(QMouseEvent* event) override;
     void paintEvent(QPaintEvent *event) override;
-    //void resizeEvent(QResizeEvent* event) override;
+    void resizeEvent(QResizeEvent* event) override;
 
 private:
     void drawLineTo(QPoint endPoint);
-    //void resizeImage(QImage* image, QSize newSize);
+    void resizeImage(QImage* image, QSize newSize);
 
     MainWindow* pParent;
 

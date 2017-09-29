@@ -8,7 +8,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
 
-
+    //MAINLAYOUT
     mainLayout = new QVBoxLayout();
     mainLayout->setAlignment(Qt::AlignCenter);
 
@@ -20,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
     imageLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     imageLabel->setAlignment(Qt::AlignCenter);
     const QRect screenGeometry = QApplication::desktop()->screenGeometry(this);
+    screenSize = QSize(screenGeometry.width(), screenGeometry.height());
     imageLabel->setMinimumSize(screenGeometry.width() / 8, screenGeometry.height() / 8);
     mainLayout->addWidget(imageLabel);
 
@@ -51,6 +52,7 @@ MainWindow::MainWindow(QWidget *parent) :
 }
 
 void MainWindow::resizeEvent(QResizeEvent *) {
+    std::cerr << "hi";
     QSize scaledSize = mBasePixmap.size();
     scaledSize.scale(imageLabel->size(), Qt::KeepAspectRatio);
     if (!imageLabel->pixmap() || scaledSize != imageLabel->pixmap()->size())
@@ -67,6 +69,12 @@ void MainWindow::setup() {
     connect(ssButton, SIGNAL(released()), this, SLOT (handleSSRelease()));
     connect(editButton, SIGNAL(released()), this, SLOT(handleEditButton()));
     connect(saveButton, SIGNAL(released()), this, SLOT (handleSaveRelease()));
+
+    penColorAct = new QAction(tr("&Pen Color..."), this);
+    connect(penColorAct, SIGNAL(triggered()), this, SLOT(penColor()));
+
+    penWidthAct = new QAction(tr("&Pen Width..."), this);
+    connect(penWidthAct, SIGNAL(triggered()), this, SLOT(penWidth()));
 }
 
 void MainWindow::handleSaveRelease() {
@@ -97,6 +105,12 @@ void MainWindow::handleSaveRelease() {
 
 void MainWindow::handleEditButton() {
     drawArea = new DrawArea(this, mBasePixmap);
+    drawArea->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    drawArea->setMinimumSize(screenSize.width() / 8, screenSize.height() / 8);
+    //resize(mBasePixmap.size());
+    //refreshEditingLayout();
+    menuBar()->addAction(penColorAct);
+    menuBar()->addAction(penWidthAct);
     setCentralWidget(drawArea);
 }
 
@@ -121,6 +135,23 @@ void MainWindow::updatePixmap(QPixmap newPixmap) {
 
 void MainWindow::updateScreenShotLabel() {
     imageLabel->setPixmap(mBasePixmap.scaled(imageLabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+}
+
+void MainWindow::penColor() {
+    QColor newColor = QColorDialog::getColor(drawArea->getPenColor());
+        if (newColor.isValid())
+            drawArea->setPenColor(newColor);
+}
+
+void MainWindow::penWidth()
+{
+    bool ok;
+    int newWidth = QInputDialog::getInt(this, tr("Scribble"),
+                                        tr("Select pen width:"),
+                                        drawArea->getPenWidth(),
+                                        1, 50, 1, &ok);
+    if (ok)
+        drawArea->setPenWidth(newWidth);
 }
 
 MainWindow::~MainWindow()
