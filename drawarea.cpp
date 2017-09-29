@@ -21,6 +21,10 @@ DrawArea::DrawArea(MainWindow *parent, QPixmap pixmap) : pParent(parent)
     update();
 }
 
+DrawArea::~DrawArea() {
+    pParent = nullptr;
+}
+
 void DrawArea::setPenColor(QColor color) {
     mPen.setColor(color);
 }
@@ -37,7 +41,7 @@ void DrawArea::mousePressEvent(QMouseEvent *event) {
 }
 
 void DrawArea::mouseMoveEvent(QMouseEvent *event) {
-    if (bDrawing && (event->button() & Qt::LeftButton))
+    if (bDrawing)
         drawLineTo(event->pos());
 }
 
@@ -61,6 +65,7 @@ void DrawArea::drawLineTo(QPoint endPoint) {
     bModified = true;
 
     int radius = (mPen.width() / 2) + 2;
-    update(QRect(mLastPoint, endPoint).normalized().adjusted(-radius, -radius, +radius, +radius));
+    update();
+    //update(QRect(mLastPoint, endPoint).normalized().adjusted(-radius, -radius, +radius, +radius));
     mLastPoint = endPoint;
 }

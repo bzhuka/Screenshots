@@ -96,7 +96,7 @@ void MainWindow::handleSaveRelease() {
 }
 
 void MainWindow::handleEditButton() {
-    DrawArea* drawArea = new DrawArea(this, mBasePixmap);
+    drawArea = new DrawArea(this, mBasePixmap);
     setCentralWidget(drawArea);
 }
 
@@ -125,10 +125,18 @@ void MainWindow::updateScreenShotLabel() {
 
 MainWindow::~MainWindow()
 {
-    delete imageLabel;
-    delete mainLayout;
-    delete ssButton;
-    delete saveButton;
-    delete central;
-    delete ui;
+//    if (drawArea)
+//        delete drawArea;
+//    if (imageLabel)
+//        delete imageLabel;
+//    if (mainLayout)
+//        delete mainLayout;
+//    if (ssButton)
+//        delete ssButton;
+//    if (saveButton)
+//        delete saveButton;
+//    if (central)
+//        delete central;
+//    if (ui)
+//        delete ui;
 }

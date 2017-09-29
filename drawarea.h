@@ -16,6 +16,7 @@ class DrawArea : public QWidget
     Q_OBJECT
 public:
     DrawArea(MainWindow *parent, QPixmap pixmap);
+    ~DrawArea();
 
     QColor getPenColor() {
         return mPen.color();

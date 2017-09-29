@@ -58,6 +58,8 @@ private:
 
     Ui::MainWindow *ui;
 
+    DrawArea* drawArea;
+
     QPixmap mBasePixmap;
     QLabel* imageLabel;
     QPushButton* ssButton;
