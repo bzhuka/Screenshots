@@ -27,7 +27,8 @@ MainWindow::MainWindow(QWidget *parent) :
     mBasePixmap = QPixmap(screenGeometry.width() / 8, screenGeometry.height() / 8);
     //SECOND ITEM
     //Buttons
-    buttonsLayout = new QHBoxLayout;
+    buttonsWidget = new QWidget();
+    buttonsLayout = new QHBoxLayout(buttonsWidget);
 
     ssButton = new QPushButton();
     ssButton->setText("Screenshot");
@@ -42,7 +43,7 @@ MainWindow::MainWindow(QWidget *parent) :
     buttonsLayout->addWidget(saveButton);
 
     buttonsLayout->addStretch();
-    mainLayout->addLayout(buttonsLayout);
+    mainLayout->addWidget(buttonsWidget);
 
     central = new QWidget;
     central->setLayout(mainLayout);
@@ -52,7 +53,6 @@ MainWindow::MainWindow(QWidget *parent) :
 }
 
 void MainWindow::resizeEvent(QResizeEvent *) {
-    std::cerr << "hi";
     QSize scaledSize = mBasePixmap.size();
     scaledSize.scale(imageLabel->size(), Qt::KeepAspectRatio);
     if (!imageLabel->pixmap() || scaledSize != imageLabel->pixmap()->size())
@@ -111,7 +111,9 @@ void MainWindow::handleEditButton() {
     //refreshEditingLayout();
     menuBar()->addAction(penColorAct);
     menuBar()->addAction(penWidthAct);
-    setCentralWidget(drawArea);
+    mainLayout->removeWidget(imageLabel);
+    buttonsWidget->hide();
+    mainLayout->addWidget(drawArea);
 }
 
 void MainWindow::handleSSRelease() {

@@ -73,6 +73,7 @@ private:
     QPushButton* editButton;
     QPushButton* saveButton;
     QVBoxLayout* mainLayout;
+    QWidget* buttonsWidget;
     QHBoxLayout* buttonsLayout;
     QHBoxLayout* editingButtonsLayout;
     QSpinBox* penSizeBox;
