@@ -25,6 +25,14 @@ DrawArea::~DrawArea() {
     pParent = nullptr;
 }
 
+void DrawArea::updatePixmap(QPixmap pixmap) {
+    mImage = pixmap.toImage();
+}
+
+QPixmap DrawArea::getPixmap() {
+    return QPixmap::fromImage(mImage);
+}
+
 void DrawArea::setPenColor(QColor color) {
     mPen.setColor(color);
 }

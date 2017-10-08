@@ -45,6 +45,12 @@ MainWindow::MainWindow(QWidget *parent) :
     buttonsLayout->addStretch();
     mainLayout->addWidget(buttonsWidget);
 
+    drawArea = new DrawArea(this, mBasePixmap);
+    drawArea->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    drawArea->setMinimumSize(screenSize.width() / 8, screenSize.height() / 8);
+    mainLayout->addWidget(drawArea);
+    drawArea->hide();
+
     central = new QWidget;
     central->setLayout(mainLayout);
     setCentralWidget(central);
@@ -75,6 +81,9 @@ void MainWindow::setup() {
 
     penWidthAct = new QAction(tr("&Pen Width..."), this);
     connect(penWidthAct, SIGNAL(triggered()), this, SLOT(penWidth()));
+
+    doneAct = new QAction(tr("&Done Editing..."), this);
+    connect(doneAct, SIGNAL(triggered()), this, SLOT(doneEditing()));
 }
 
 void MainWindow::handleSaveRelease() {
@@ -104,16 +113,20 @@ void MainWindow::handleSaveRelease() {
 }
 
 void MainWindow::handleEditButton() {
-    drawArea = new DrawArea(this, mBasePixmap);
-    drawArea->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    drawArea->setMinimumSize(screenSize.width() / 8, screenSize.height() / 8);
     //resize(mBasePixmap.size());
     //refreshEditingLayout();
     menuBar()->addAction(penColorAct);
     menuBar()->addAction(penWidthAct);
-    mainLayout->removeWidget(imageLabel);
+    menuBar()->addAction(doneAct);
+    //mainLayout->removeWidget(imageLabel);
+    imageLabel->hide();
     buttonsWidget->hide();
-    mainLayout->addWidget(drawArea);
+    drawArea->updatePixmap(mBasePixmap);
+    drawArea->show();
+
+    move(0,0);
+    defaultSize = this->size();
+    resize(screenSize);
 }
 
 void MainWindow::handleSSRelease() {
@@ -154,6 +167,17 @@ void MainWindow::penWidth()
                                         1, 50, 1, &ok);
     if (ok)
         drawArea->setPenWidth(newWidth);
+}
+
+void MainWindow::doneEditing() {
+    menuBar()->clear();
+    drawArea->hide();
+    imageLabel->show();
+    buttonsWidget->show();
+
+    updatePixmap(drawArea->getPixmap());
+
+    resize(defaultSize);
 }
 
 MainWindow::~MainWindow()

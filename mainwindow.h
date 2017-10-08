@@ -55,6 +55,7 @@ private slots:
 
     void penColor();
     void penWidth();
+    void doneEditing();
 
 private:
     void setup();
@@ -81,8 +82,10 @@ private:
 
     QAction* penColorAct;
     QAction* penWidthAct;
+    QAction* doneAct;
 
     QSize screenSize;
+    QSize defaultSize;
 
     screenshotWindow* pSS;
 };

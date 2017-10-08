@@ -18,6 +18,9 @@ public:
     DrawArea(MainWindow *parent, QPixmap pixmap);
     ~DrawArea();
 
+    void updatePixmap(QPixmap pixmap);
+    QPixmap getPixmap();
+
     QColor getPenColor() {
         return mPen.color();
     }
